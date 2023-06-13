@@ -23,13 +23,34 @@ For this analysis, we 'll use the penguins dataset from the palmerpenguins packa
 #| include: false
 
 library(tidyverse)
+library(tidymodels)
 library(ggthemes)
 library(palmerpenguins)
 library(gt)
 ```
 
+Converting the dataset to a tibble for a more aesthetic display
+
+```{r}
+penguins <- as_tibble(penguins)
+```
+
 ```{r}
 glimpse(penguins)
+```
+
+Getting summary statistics of the dataset using the summary function in base R
+
+```{r}
+penguins %>% summary()
+```
+
+Exploring a bit more to see the initial few rows
+
+```{r}
+penguins %>% 
+
+  head()  
 ```
 
 ## Meet Quarto
@@ -98,6 +119,135 @@ penguins %>%
 
 # Analysis
 
+Check for missing values
+
+```{r}
+missing_values <- penguins %>% 
+
+  summarise(across(everything(), ~sum(is.na(.))))  # Calculate missing values for each variable
+cat("Missing values:\n")
+
+print(missing_values)
+
+
+
+```
+
+## Data Pre-processing
+
+First we need to remove rows with missing values to enable easy and accurate modelling
+
+```{r}
+# Remove rows with missing values
+penguins <- penguins %>% 
+  drop_na()
+```
+
+## Modelling
+
+We begin by splitting the data into training and testing sets
+
+```{r}
+# Split the data into training and testing sets
+
+set.seed(123)  # For reproducibility
+
+split <- initial_split(penguins, prop = 0.7)
+
+train_data <- training(split)
+
+test_data <- testing(split)
+
+
+```
+
+Then we build a simple linear regression model using tidymodels package
+
+```{r}
+# Build a simple model using tidymodels
+
+model <- linear_reg() %>%
+
+  set_engine("lm") %>%
+
+  set_mode("regression")
+
+model_fit <- model %>% 
+
+  fit(body_mass_g ~ bill_length_mm + bill_depth_mm, data = train_data)
+
+
+```
+
+Then, we evaluate the model, testing it on the test data
+
+```{r}
+# Model evaluation
+
+train_predictions <- predict(model_fit, train_data) %>% 
+
+  bind_cols(train_data)
+
+test_predictions <- predict(model_fit, test_data) %>% 
+
+  bind_cols(test_data)
+
+
+```
+
+We then calculate the evaluation for and testing data
+
+```{r}
+# Calculate evaluation metrics for training data
+train_metrics <- train_predictions %>%
+  summarize(
+    rmse = sqrt(mean((body_mass_g - .pred)^2)),
+    r_squared = cor(body_mass_g, .pred)^2
+  )
+
+cat("Training metrics:\n")
+print(train_metrics)
+
+# Calculate evaluation metrics for testing data
+test_metrics <- test_predictions %>%
+  summarize(
+    rmse = sqrt(mean((body_mass_g - .pred)^2)),
+    r_squared = cor(body_mass_g, .pred)^2
+  )
+
+cat("Testing metrics:\n")
+print(test_metrics)
+```
+
 ## Modelling Results
+
+Here, I will show the plots for both the training and testing data
+
+```{r}
+# Calculate residuals for training data
+train_residuals <- train_predictions %>%
+  mutate(residual = body_mass_g - .pred)
+
+# Create a scatter plot for training data residuals
+ggplot(train_residuals, aes(x = body_mass_g, y = residual)) +
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "red") +
+  labs(x = "Actual", y = "Residual", title = "Training Data Residuals")
+
+
+```
+
+For the testing data
+
+```{# Calculate residuals for testing data}
+test_residuals <- test_predictions %>%
+  mutate(residual = body_mass_g - .pred)
+
+# Create a scatter plot for testing data residuals
+ggplot(test_residuals, aes(x = body_mass_g, y = residual)) +
+  geom_point() + geom_hline(yintercept = 0, linetype = "dashed", color = "red") + labs(x = "Actual", y = "Residual", title = "Testing Data Residuals")
+```
+
+Work in progress.
 
 # References

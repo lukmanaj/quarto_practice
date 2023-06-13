@@ -184,12 +184,16 @@ div.csl-indent {
 
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
-<p>I have been learning data science as a fellow of the Arewa Data Science Academy since January, 2023 and I have picked many skills. This is an attempt to practice quarto using the R programming language, in the RStudio IDE. I will work on the palmerpenguins dataset. Work in progress!!</p>
+<p>I have been learning data science as a fellow of the Arewa Data Science Academy since January, 2023 and I have picked many skills. This is an attempt to practice quarto using the R programming language, in the RStudio IDE. I will work on the palmerpenguins dataset. Work in progress!</p>
 <section id="data" class="level2 smaller">
 <h2 class="smaller anchored" data-anchor-id="data">Data</h2>
 <p>For this analysis, we ’ll use the penguins dataset from the palmerpenguins package. <span class="citation" data-cites="gorman2014">(<a href="#ref-gorman2014" role="doc-biblioref">Gorman, Williams, and Fraser 2014</a>)</span></p>
+<p>Converting the dataset to a tibble for a more aesthetic display</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 344
 Columns: 8
@@ -201,6 +205,46 @@ $ flipper_length_mm &lt;int&gt; 181, 186, 195, NA, 193, 190, 181, 195, 193, 190,
 $ body_mass_g       &lt;int&gt; 3750, 3800, 3250, NA, 3450, 3650, 3625, 4675, 3475, …
 $ sex               &lt;fct&gt; male, female, female, NA, female, male, female, male…
 $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007…</code></pre>
+</div>
+</div>
+<p>Getting summary statistics of the dataset using the summary function in base R</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      species          island    bill_length_mm  bill_depth_mm  
+ Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+ Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+ Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+                                 Mean   :43.92   Mean   :17.15  
+                                 3rd Qu.:48.50   3rd Qu.:18.70  
+                                 Max.   :59.60   Max.   :21.50  
+                                 NA's   :2       NA's   :2      
+ flipper_length_mm  body_mass_g       sex           year     
+ Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
+ 1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
+ Median :197.0     Median :4050   NA's  : 11   Median :2008  
+ Mean   :200.9     Mean   :4202                Mean   :2008  
+ 3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
+ Max.   :231.0     Max.   :6300                Max.   :2009  
+ NA's   :2         NA's   :2                                 </code></pre>
+</div>
+</div>
+<p>Exploring a bit more to see the initial few rows</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -223,8 +267,8 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h2 class="anchored" data-anchor-id="species">Species</h2>
 <p><a href="#fig-bill-dim-species">Figure&nbsp;1</a> is a scatter plot of species of penguins</p>
 <div class="cell" data-fig.asp="0.618">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>bill_length_mm, <span class="at">y=</span> bill_depth_mm,<span class="at">color=</span>species,<span class="at">shape=</span>species)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">scale_color_colorblind</span>()  <span class="sc">+</span> <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"Bill length (mm)"</span>, <span class="at">y =</span> <span class="st">"Bill depth (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(penguins,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>bill_length_mm, <span class="at">y=</span> bill_depth_mm,<span class="at">color=</span>species,<span class="at">shape=</span>species)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="fu">scale_color_colorblind</span>()  <span class="sc">+</span> <span class="fu">labs</span>( <span class="at">x =</span> <span class="st">"Bill length (mm)"</span>, <span class="at">y =</span> <span class="st">"Bill depth (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Removed 2 rows containing missing values (`geom_point()`).</code></pre>
 </div>
@@ -242,30 +286,30 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <h2 class="anchored" data-anchor-id="penguins">Penguins</h2>
 <p><a href="#tbl-penguins-top10">Table&nbsp;1</a> shows the first ten penguins from the dataset.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species,island,bill_length_mm,bill_depth_mm) <span class="sc">%&gt;%</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n=</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species,island,bill_length_mm,bill_depth_mm) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="tbl-penguins-top10" class="anchored">
 
-<div id="kyzjgvtsry" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kyzjgvtsry table {
+<div id="lqqgropann" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lqqgropann table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kyzjgvtsry thead, #kyzjgvtsry tbody, #kyzjgvtsry tfoot, #kyzjgvtsry tr, #kyzjgvtsry td, #kyzjgvtsry th {
+#lqqgropann thead, #lqqgropann tbody, #lqqgropann tfoot, #lqqgropann tr, #lqqgropann td, #lqqgropann th {
   border-style: none;
 }
 
-#kyzjgvtsry p {
+#lqqgropann p {
   margin: 0;
   padding: 0;
 }
 
-#kyzjgvtsry .gt_table {
+#lqqgropann .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -291,12 +335,12 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-left-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_caption {
+#lqqgropann .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kyzjgvtsry .gt_title {
+#lqqgropann .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -308,7 +352,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-width: 0;
 }
 
-#kyzjgvtsry .gt_subtitle {
+#lqqgropann .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -320,7 +364,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-width: 0;
 }
 
-#kyzjgvtsry .gt_heading {
+#lqqgropann .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -332,13 +376,13 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_bottom_border {
+#lqqgropann .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_col_headings {
+#lqqgropann .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -353,7 +397,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_col_heading {
+#lqqgropann .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -373,7 +417,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#kyzjgvtsry .gt_column_spanner_outer {
+#lqqgropann .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -385,15 +429,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 4px;
 }
 
-#kyzjgvtsry .gt_column_spanner_outer:first-child {
+#lqqgropann .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kyzjgvtsry .gt_column_spanner_outer:last-child {
+#lqqgropann .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kyzjgvtsry .gt_column_spanner {
+#lqqgropann .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -405,11 +449,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   width: 100%;
 }
 
-#kyzjgvtsry .gt_spanner_row {
+#lqqgropann .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kyzjgvtsry .gt_group_heading {
+#lqqgropann .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -435,7 +479,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   text-align: left;
 }
 
-#kyzjgvtsry .gt_empty_group_heading {
+#lqqgropann .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -450,15 +494,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: middle;
 }
 
-#kyzjgvtsry .gt_from_md > :first-child {
+#lqqgropann .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kyzjgvtsry .gt_from_md > :last-child {
+#lqqgropann .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kyzjgvtsry .gt_row {
+#lqqgropann .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -477,7 +521,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   overflow-x: hidden;
 }
 
-#kyzjgvtsry .gt_stub {
+#lqqgropann .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -490,7 +534,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#kyzjgvtsry .gt_stub_row_group {
+#lqqgropann .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -504,15 +548,15 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   vertical-align: top;
 }
 
-#kyzjgvtsry .gt_row_group_first td {
+#lqqgropann .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kyzjgvtsry .gt_row_group_first th {
+#lqqgropann .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kyzjgvtsry .gt_summary_row {
+#lqqgropann .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -522,16 +566,16 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#kyzjgvtsry .gt_first_summary_row {
+#lqqgropann .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_first_summary_row.thick {
+#lqqgropann .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kyzjgvtsry .gt_last_summary_row {
+#lqqgropann .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -541,7 +585,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_grand_summary_row {
+#lqqgropann .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -551,7 +595,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#kyzjgvtsry .gt_first_grand_summary_row {
+#lqqgropann .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -561,7 +605,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-top-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_last_grand_summary_row_top {
+#lqqgropann .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -571,11 +615,11 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_striped {
+#lqqgropann .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kyzjgvtsry .gt_table_body {
+#lqqgropann .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -584,7 +628,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-bottom-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_footnotes {
+#lqqgropann .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -598,7 +642,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_footnote {
+#lqqgropann .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -607,7 +651,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#kyzjgvtsry .gt_sourcenotes {
+#lqqgropann .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -621,7 +665,7 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   border-right-color: #D3D3D3;
 }
 
-#kyzjgvtsry .gt_sourcenote {
+#lqqgropann .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -629,63 +673,63 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
   padding-right: 5px;
 }
 
-#kyzjgvtsry .gt_left {
+#lqqgropann .gt_left {
   text-align: left;
 }
 
-#kyzjgvtsry .gt_center {
+#lqqgropann .gt_center {
   text-align: center;
 }
 
-#kyzjgvtsry .gt_right {
+#lqqgropann .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kyzjgvtsry .gt_font_normal {
+#lqqgropann .gt_font_normal {
   font-weight: normal;
 }
 
-#kyzjgvtsry .gt_font_bold {
+#lqqgropann .gt_font_bold {
   font-weight: bold;
 }
 
-#kyzjgvtsry .gt_font_italic {
+#lqqgropann .gt_font_italic {
   font-style: italic;
 }
 
-#kyzjgvtsry .gt_super {
+#lqqgropann .gt_super {
   font-size: 65%;
 }
 
-#kyzjgvtsry .gt_footnote_marks {
+#lqqgropann .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kyzjgvtsry .gt_asterisk {
+#lqqgropann .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kyzjgvtsry .gt_indent_1 {
+#lqqgropann .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kyzjgvtsry .gt_indent_2 {
+#lqqgropann .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kyzjgvtsry .gt_indent_3 {
+#lqqgropann .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kyzjgvtsry .gt_indent_4 {
+#lqqgropann .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kyzjgvtsry .gt_indent_5 {
+#lqqgropann .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -752,8 +796,138 @@ $ year              &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 </section>
 <section id="analysis" class="level1">
 <h1>Analysis</h1>
+<p>Check for missing values</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>missing_values <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.))))  <span class="co"># Calculate missing values for each variable</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Missing values:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Missing values:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(missing_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 8
+  species island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+    &lt;int&gt;  &lt;int&gt;          &lt;int&gt;         &lt;int&gt;             &lt;int&gt;       &lt;int&gt;
+1       0      0              2             2                 2           2
+# ℹ 2 more variables: sex &lt;int&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<section id="data-pre-processing" class="level2">
+<h2 class="anchored" data-anchor-id="data-pre-processing">Data Pre-processing</h2>
+<p>First we need to remove rows with missing values to enable easy and accurate modelling</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with missing values</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>penguins <span class="ot">&lt;-</span> penguins <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelling" class="level2">
+<h2 class="anchored" data-anchor-id="modelling">Modelling</h2>
+<p>We begin by splitting the data into training and testing sets</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  <span class="co"># For reproducibility</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(penguins, <span class="at">prop =</span> <span class="fl">0.7</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">training</span>(split)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> <span class="fu">testing</span>(split)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we build a simple linear regression model using tidymodels package</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build a simple model using tidymodels</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_mode</span>(<span class="st">"regression"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>model_fit <span class="ot">&lt;-</span> model <span class="sc">%&gt;%</span> </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(body_mass_g <span class="sc">~</span> bill_length_mm <span class="sc">+</span> bill_depth_mm, <span class="at">data =</span> train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we evaluate the model, testing it on the test data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model evaluation</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>train_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_fit, train_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(train_data)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>test_predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(model_fit, test_data) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then calculate the evaluation for and testing data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate evaluation metrics for training data</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>train_metrics <span class="ot">&lt;-</span> train_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((body_mass_g <span class="sc">-</span> .pred)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">r_squared =</span> <span class="fu">cor</span>(body_mass_g, .pred)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Training metrics:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training metrics:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(train_metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+   rmse r_squared
+  &lt;dbl&gt;     &lt;dbl&gt;
+1  578.     0.488</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate evaluation metrics for testing data</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>test_metrics <span class="ot">&lt;-</span> test_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((body_mass_g <span class="sc">-</span> .pred)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">r_squared =</span> <span class="fu">cor</span>(body_mass_g, .pred)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Testing metrics:</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Testing metrics:</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(test_metrics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+   rmse r_squared
+  &lt;dbl&gt;     &lt;dbl&gt;
+1  616.     0.411</code></pre>
+</div>
+</div>
+</section>
 <section id="modelling-results" class="level2">
 <h2 class="anchored" data-anchor-id="modelling-results">Modelling Results</h2>
+<p>Here, I will show the plots for both the training and testing data</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate residuals for training data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>train_residuals <span class="ot">&lt;-</span> train_predictions <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">residual =</span> body_mass_g <span class="sc">-</span> .pred)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a scatter plot for training data residuals</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(train_residuals, <span class="fu">aes</span>(<span class="at">x =</span> body_mass_g, <span class="at">y =</span> residual)) <span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Actual"</span>, <span class="at">y =</span> <span class="st">"Residual"</span>, <span class="at">title =</span> <span class="st">"Training Data Residuals"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>For the testing data</p>
+<pre class="{# Calculate residuals for testing data}"><code>test_residuals &lt;- test_predictions %&gt;%
+  mutate(residual = body_mass_g - .pred)
+
+# Create a scatter plot for testing data residuals
+ggplot(test_residuals, aes(x = body_mass_g, y = residual)) +
+  geom_point() + geom_hline(yintercept = 0, linetype = "dashed", color = "red") + labs(x = "Actual", y = "Residual", title = "Testing Data Residuals")</code></pre>
+<p>Work in progress.</p>
 </section>
 </section>
 <section id="references" class="level1">
