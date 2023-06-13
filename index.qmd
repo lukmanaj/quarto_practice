@@ -239,7 +239,8 @@ ggplot(train_residuals, aes(x = body_mass_g, y = residual)) +
 
 For the testing data
 
-```{# Calculate residuals for testing data}
+```{r}
+# Calculate residuals for testing data
 test_residuals <- test_predictions %>%
   mutate(residual = body_mass_g - .pred)
 
