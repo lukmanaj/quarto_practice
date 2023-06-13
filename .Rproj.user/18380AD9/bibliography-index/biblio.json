@@ -1,0 +1,46 @@
+{
+    "sources": [
+        {
+            "DOI": "10.1371/journal.pone.0090081",
+            "URL": "http://dx.doi.org/10.1371/journal.pone.0090081",
+            "author": [
+                {
+                    "family": "Gorman",
+                    "given": "Kristen B."
+                },
+                {
+                    "family": "Williams",
+                    "given": "Tony D."
+                },
+                {
+                    "family": "Fraser",
+                    "given": "William R."
+                }
+            ],
+            "container-title": "PLoS ONE",
+            "editor": [
+                {
+                    "family": "Chiaradia",
+                    "given": "André"
+                }
+            ],
+            "id": "gorman2014",
+            "issue": "3",
+            "issued": {
+                "date-parts": [
+                    [
+                        2014,
+                        3,
+                        5
+                    ]
+                ]
+            },
+            "language": "en",
+            "page": "e90081",
+            "title": "Ecological Sexual Dimorphism and Environmental Variability within a Community of Antarctic Penguins (Genus Pygoscelis)",
+            "type": "article-journal",
+            "volume": "9"
+        }
+    ],
+    "project_biblios": []
+}
